@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+        }
+        
+        .calculator {
+          width: 230px;
+          margin: 50px auto;
+          padding: 10px;
+          background-color: white;
+          border: 1px solid #ccc;
+          border-radius: 1px;
+        }
+        
+        .calculator input[type="text"] {
+          height: 30px;
+          margin-bottom: 10px;
+          padding: 1px;
+          font-size: 18px;
+          border: 2px solid #3ba5cc;
+          border-radius: 1px;
+          text-align:right;
+          background-color: #dfe3e6;
+        }
+        
+        .calculator button {
+          width: 50px;
+          height: 40px;
+          margin: 2px;
+          font-size: 18px;
+          border: 1px solid #ccc;
+          border-radius: 1px;
+          cursor: pointer;
+        }
+        
+        .calculator button.operator {
+          background-color: #4CAF50;
+          color: white;
+        }
+        
+        .calculator button.clear {
+          margin-right: 43px;   
+          width: 90px;   
+        }
+    
+        .calculator button.back {  
+          width: 90px;   
+        }
+      </style>
+</head>
+    <body>
+        <div class="calculator">
+          <input type="text" id="result" readonly value="0">    
+          <br>
+          <button onclick="addToExpression('7')">7</button>
+          <button onclick="addToExpression('8')">8</button>
+          <button onclick="addToExpression('9')">9</button>
+          <button onclick="addToExpression('/')">/</button>
+          <br>
+          <button onclick="addToExpression('4')">4</button>
+          <button onclick="addToExpression('5')">5</button>
+          <button onclick="addToExpression('6')">6</button>
+          <button onclick="addToExpression('*')">*</button>
+          <br>
+          <button onclick="addToExpression('1')">1</button>
+          <button onclick="addToExpression('2')">2</button>
+          <button onclick="addToExpression('3')">3</button>
+          <button onclick="addToExpression('-')">-</button>
+          <br>
+          <button onclick="addToExpression('0')">0</button>
+          <button onclick="addToExpression('.')">.</button>
+          <button onclick="calculateResult()">=</button>
+          <button onclick="addToExpression('+')">+</button>
+      
+          <button onclick="clearAll()" class="clear">Clear all</button><button onclick="backspace()" class="back">Back</button>
+        </div>
+        
+        <script>
+          let expression = '';
+          
+          function addToExpression(value) {
+            if (/[a-zA-Z]/.test(value)) {
+              return; // Ignore alphabets
+            }
+            
+            if (value === '.' && expression.includes('.')) {
+              return; // Ignore multiple decimal points
+            }
+            
+            if (expression.length >= 12) {
+              return; // Limit result to 12 characters
+            }
+            
+            expression += value;
+            document.getElementById('result').value = expression;
+          }
+          
+          function backspace() {
+            expression = expression.slice(0, -1);
+            document.getElementById('result').value = expression;
+          }
+          
+          function
+          clearAll() {
+      expression = '';
+      document.getElementById('result').value = '0';
+      }
+          function calculateResult() {
+        let result = '';
+        
+        try {
+          result = eval(expression);
+        } catch (error) {
+          result = 'Error';
+        }
+        
+        if (result !== undefined) {
+          result = result.toFixed(3); // Limit decimal places to 3
+          result = result.toString().substring(0, 12); // Limit result to 12 characters
+        }
+        
+        document.getElementById('result').value = result;
+        expression = result;
+      }
+      
+      document.addEventListener('keydown', function(event) {
+        const key = event.key;
+        
+        if (/[0-9+\-*/.]/.test(key)) {
+          addToExpression(key);
+        } else if (key === 'Enter') {
+          calculateResult();
+        } else if (key === 'Backspace') {
+          backspace();
+        } else if (key === 'Delete') {
+          clearAll();
+        }
+      });
+      </script>
+</body>
+</html>

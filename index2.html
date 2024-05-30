@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+          width: 230px;
+          margin: 50px auto;
+          padding: 10px;
+          background-color: white;
+          border: 1px solid #ccc;
+          border-radius: 1px;
+        }
+
+        .calculator input {
+            padding: 1px;
+            height: 25px;
+            background-color: #dfe3e6;
+            border: 2px solid #3ba5cc;
+            text-align: right;
+            font-size: 18px;
+            border-radius: 1px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .calculator button {
+            padding: 10px;
+            font-size: 18px;
+            height: 40px;
+            width: 40px;
+            margin: 7px;
+            font-weight: bold;
+        }
+
+        .calculator button.clearall {
+            width: 100px;
+            text-align:center;
+        }
+
+        .calculator button.back {
+            width: 80px;
+            text-align: center;
+            margin-left: 23px;
+        }
+    </style>
+
+</head>
+<body>
+     
+     <div class="calculator">
+          <input type="text" id="result" readonly value="0">
+          <br>
+          <button onclick="addToExpression('7')">7</button>
+          <button onclick="addToExpression('8')">8</button>
+          <button onclick="addToExpression('9')">9</button>
+          <button onclick="addToExpression('/')">/</button>
+          <br>
+          <button onclick="addToExpression('4')">4</button>
+          <button onclick="addToExpression('5')">5</button>
+          <button onclick="addToExpression('6')">6</button>
+          <button onclick="addToExpression('*')">*</button>
+          <br>
+          <button onclick="addToExpression('1')">1</button>
+          <button onclick="addToExpression('2')">2</button>
+          <button onclick="addToExpression('3')">3</button>
+          <button onclick="addToExpression('-')">-</button>
+          <br>
+          <button onclick="addToExpression('0')">0</button>
+          <button onclick="addToExpression('.')">.</button>
+          <button onclick="calculateResult()">=</button>
+          <button onclick="addToExpression('+')">+</button>
+          <br>
+          <button onclick="clearAll()" class="clearall">Clear all</button> <button onclick="backspace()" class="back">Back</button>
+     </div>
+
+     <script>
+         let expression = '';
+
+         function addToExpression(value) {
+             if (/[a-zA-Z-]/.test(value)) {
+                return;
+             }
+
+             if (value === '.' && expression.includes('.')) {
+                return;
+             }
+
+             if (expression.length >=12) {
+                 return;
+             }
+
+             expression += value;
+             document.getElementById('result').value = expression;
+         }
+
+         function backspace() {
+            expression = expression.slice(0, -1);
+            document.getElementById('result').value = expression;
+         }
+
+         function
+          clearAll() {
+      expression = '';
+      document.getElementById('result').value = '0';
+      }
+
+      function calculateResult() {
+        let result = ''; 
+
+        try {
+            result = eval(expression);
+        } catch (error) {
+            result = 'Error';
+        }
+
+        if (result !== undefined) {
+            result = result.toFixed(3);
+            result = toString().subString(0, 12);
+        }
+
+
+        document.getElementById('result').value = results;
+        expression = result;
+    }
+
+    document.addEventListener('keydown', function(event) {
+        const key = event.key;
+        
+        if (/[0-9+\-*/.]/.test(key)) {
+          addToExpression(key);
+        } else if (key === 'Enter') {
+          calculateResult();
+        } else if (key === 'Backspace') {
+          backspace();
+        } else if (key === 'Delete') {
+          clearAll();
+        }
+      });
+     </script>
+</body>
+</html>
